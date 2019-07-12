@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.MemoryConfiguration;
 
@@ -45,7 +47,15 @@ public class DonorDataInputHandler extends HttpTextInputHandler{
             scanner.useDelimiter("</td>");
 //Logger.getGlobal().info(scanner.next());
             //scanner.nextLine();
-            scanner.next();
+            for(int i=0; i<5; i++) {
+                if(scanner.hasNext()) {
+                    scanner.next();
+                } else {
+                    java.util.logging.Logger.getLogger(DonorDataInputHandler.class.getName())
+                                            .log(Level.WARNING, "Configured donor data source contains no data.");
+                    return;
+                }
+            }
             scanner.next();
             scanner.next();
             scanner.next();
@@ -54,8 +64,8 @@ public class DonorDataInputHandler extends HttpTextInputHandler{
                 String name = scanner.next();
                 name = name.substring(name.indexOf("<td>")+4);
                 String uuid = scanner.next();
-//Logger.getGlobal().info("                  "+uuid);
                 uuid = uuid.substring(uuid.indexOf("<td>")+4);
+Logger.getGlobal().info(name+"       "+uuid);
                 if(uuid.equals("")) {
                     uuid = Bukkit.getOfflinePlayer(name).getUniqueId().toString();
                     //uuid = uuid.replace("-", "");
