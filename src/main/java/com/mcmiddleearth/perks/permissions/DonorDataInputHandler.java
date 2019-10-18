@@ -59,7 +59,7 @@ public class DonorDataInputHandler extends HttpTextInputHandler{
                 String uuid = scanner.next();
 //Logger.getGlobal().info("uuid "+uuid);
                 uuid = uuid.substring(uuid.indexOf("<td>")+4);
-                if(name.equals("")) {
+                if(uuid.equals("") && name.equals("")) {
                     scanner.next();
                     scanner.next();
                     continue;
